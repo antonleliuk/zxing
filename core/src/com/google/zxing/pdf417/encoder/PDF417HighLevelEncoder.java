@@ -23,6 +23,7 @@ package com.google.zxing.pdf417.encoder;
 import com.google.zxing.WriterException;
 
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
@@ -136,8 +137,8 @@ final class PDF417HighLevelEncoder {
    * @param msg the message
    * @return the byte array of the message
    */
-  private static byte[] getBytesForMessage(String msg) {
-    return msg.getBytes();
+  private static byte[] getBytesForMessage(String msg, Charset charset) {
+    return msg.getBytes(charset);
   }
 
   /**
@@ -148,7 +149,7 @@ final class PDF417HighLevelEncoder {
    * @param msg the message
    * @return the encoded message (the char values range from 0 to 928)
    */
-  static String encodeHighLevel(String msg, Compaction compaction) throws WriterException {
+  static String encodeHighLevel(String msg, Compaction compaction, Charset charset) throws WriterException {
     byte[] bytes = null; //Fill later and only if needed
 
     //the codewords 0..928 are encoded as Unicode characters
@@ -163,7 +164,7 @@ final class PDF417HighLevelEncoder {
       encodeText(msg, p, len, sb, textSubMode);
 
     } else if (compaction == Compaction.BYTE) {
-      bytes = getBytesForMessage(msg);
+      bytes = getBytesForMessage(msg, charset);
       encodeBinary(bytes, p, bytes.length, BYTE_COMPACTION, sb);
 
     } else if (compaction == Compaction.NUMERIC) {
@@ -192,7 +193,7 @@ final class PDF417HighLevelEncoder {
             p += t;
           } else {
             if (bytes == null) {
-              bytes = getBytesForMessage(msg);
+              bytes = getBytesForMessage(msg, charset);
             }
             int b = determineConsecutiveBinaryCount(msg, bytes, p);
             if (b == 0) {

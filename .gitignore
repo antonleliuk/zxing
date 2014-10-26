@@ -1,1 +1,9 @@
 target
+.idea
+.settings
+/core/.project
+/core/.classpath
+/javase/.project
+libs
+/core/core.iml
+build

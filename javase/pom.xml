@@ -66,6 +66,7 @@
   </dependencies>
   
   <build>
+  	<finalName>zxing-javase-${project.version}</finalName>
     <sourceDirectory>src</sourceDirectory>
     <outputDirectory>build</outputDirectory>
     <resources>
@@ -177,6 +178,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
         <version>1.4</version>
+        <configuration>
+        	<skip>true</skip>
+        </configuration>
         <executions>
           <execution>
             <id>sign-artifacts</id>

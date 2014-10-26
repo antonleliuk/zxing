@@ -20,6 +20,8 @@
 
 package com.google.zxing.pdf417.encoder;
 
+import java.nio.charset.Charset;
+
 import com.google.zxing.WriterException;
 
 /**
@@ -517,6 +519,8 @@ public final class PDF417 {
   private int maxCols;
   private int maxRows;
   private int minRows;
+  private Charset charset;
+  private boolean scale;
 
   public PDF417() {
     this(false);
@@ -529,6 +533,8 @@ public final class PDF417 {
     maxCols = 30;
     maxRows = 30;
     minRows = 2;
+    charset = Charset.defaultCharset();
+    this.scale = true;
   }
 
   public BarcodeMatrix getBarcodeMatrix() {
@@ -642,7 +648,7 @@ public final class PDF417 {
 
     //1. step: High-level encoding
     int errorCorrectionCodeWords = PDF417ErrorCorrection.getErrorCorrectionCodewordCount(errorCorrectionLevel);
-    String highLevel = PDF417HighLevelEncoder.encodeHighLevel(msg, compaction);
+    String highLevel = PDF417HighLevelEncoder.encodeHighLevel(msg, compaction, charset);
     int sourceCodeWords = highLevel.length();
 
     int[] dimension = determineDimensions(sourceCodeWords, errorCorrectionCodeWords);
@@ -748,6 +754,28 @@ public final class PDF417 {
   public void setCompact(boolean compact) {
     this.compact = compact;
   }
+
+  /**
+  * Sets character set
+  */
+  public void setCharset(Charset charset) {
+	this.charset = charset;
+  }
+  
+  /**
+   * Is need to scale
+   * @return scale
+   */
+  public boolean isScale() {
+	return scale;
+  }
+  
+  /**
+   * Sets scale 
+   */
+  public void setScale(boolean scale) {
+	this.scale = scale;
+}
 
 }
 

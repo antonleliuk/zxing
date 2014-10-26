@@ -25,6 +25,7 @@ import com.google.zxing.pdf417.encoder.Compaction;
 import com.google.zxing.pdf417.encoder.Dimensions;
 import com.google.zxing.pdf417.encoder.PDF417;
 
+import java.nio.charset.Charset;
 import java.util.Map;
 
 /**
@@ -68,6 +69,12 @@ public final class PDF417Writer implements Writer {
       if (hints.containsKey(EncodeHintType.MARGIN)) {
         margin = ((Number) hints.get(EncodeHintType.MARGIN)).intValue();
       }
+      if(hints.containsKey(EncodeHintType.CHARACTER_SET)){
+    	  encoder.setCharset(Charset.forName((String)hints.get(EncodeHintType.CHARACTER_SET)));
+      }
+      if(hints.containsKey(EncodeHintType.PDF417_SCALE)){
+    	  encoder.setScale((Boolean)hints.get(EncodeHintType.PDF417_SCALE));
+      }
     }
 
     return bitMatrixFromEncoder(encoder, contents, width, height, margin);
@@ -92,33 +99,49 @@ public final class PDF417Writer implements Writer {
     int errorCorrectionLevel = 2;
     encoder.generateBarcodeLogic(contents, errorCorrectionLevel);
 
-    int lineThickness = 2;
-    int aspectRatio = 4;
-    byte[][] originalScale = encoder.getBarcodeMatrix().getScaledMatrix(lineThickness, aspectRatio * lineThickness);
+//    int lineThickness = 2;
+//    int aspectRatio = 4;
+//    byte[][] originalScale = encoder.isScale() ? encoder.getBarcodeMatrix().getScaledMatrix(lineThickness, aspectRatio * lineThickness) : encoder.getBarcodeMatrix().getMatrix();
+    byte[][] originalScale = encoder.getBarcodeMatrix().getMatrix();
+//    byte[][] originalScale = encoder.getBarcodeMatrix().getScaledMatrix(lineThickness, aspectRatio * lineThickness);
     boolean rotated = false;
     if ((height > width) ^ (originalScale[0].length < originalScale.length)) {
       originalScale = rotateArray(originalScale);
       rotated = true;
     }
+    
+    int originalSize = originalScale[0].length + originalScale.length;
+    int requestedSize = width + height;
+    int scale = requestedSize / originalSize;
+    
+//    if(scale > 1){
+//    	byte[][] scaledMatrix = encoder.getBarcodeMatrix().getScaledMatrix(scale, scale);
+//		if (rotated) {
+//			scaledMatrix = rotateArray(scaledMatrix);
+//		}
+//		return bitMatrixFrombitArray(scaledMatrix, margin);
+//    }
+//    if(encoder.isScale()){
+//    	int scaleX = width / originalScale[0].length;
+//    	int scaleY = height / originalScale.length;
+    	
+//    	int scale = width / originalScale[0].length;
+//    	if (scaleX < scaleY) {
+//    		scale = scaleX;
+//    	} else {
+//    		scale = scaleY;
+//    	}
+    	
+    	if (scale > 1) {
+//    		byte[][] scaledMatrix = encoder.getBarcodeMatrix().getScaledMatrix(scale * lineThickness, scale * aspectRatio * lineThickness);
+    		byte[][] scaledMatrix = encoder.getBarcodeMatrix().getScaledMatrix(scale, scale);
+    		if (rotated) {
+    			scaledMatrix = rotateArray(scaledMatrix);
+    		}
+    		return bitMatrixFrombitArray(scaledMatrix, margin);
+    	}
+//    }
 
-    int scaleX = width / originalScale[0].length;
-    int scaleY = height / originalScale.length;
-
-    int scale;
-    if (scaleX < scaleY) {
-      scale = scaleX;
-    } else {
-      scale = scaleY;
-    }
-
-    if (scale > 1) {
-      byte[][] scaledMatrix =
-          encoder.getBarcodeMatrix().getScaledMatrix(scale * lineThickness, scale * aspectRatio * lineThickness);
-      if (rotated) {
-        scaledMatrix = rotateArray(scaledMatrix);
-      }
-      return bitMatrixFrombitArray(scaledMatrix, margin);
-    }
     return bitMatrixFrombitArray(originalScale, margin);
   }
 
@@ -159,5 +182,5 @@ public final class PDF417Writer implements Writer {
     }
     return temp;
   }
-
+  
 }

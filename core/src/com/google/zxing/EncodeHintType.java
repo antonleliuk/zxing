@@ -16,6 +16,8 @@
 
 package com.google.zxing;
 
+import com.google.zxing.common.BitMatrix;
+
 /**
  * These are a set of hints that you may pass to Writers to specify their behavior.
  *
@@ -75,6 +77,11 @@ public enum EncodeHintType {
    * {@link com.google.zxing.pdf417.encoder.Dimensions Dimensions}).
    */
   PDF417_DIMENSIONS,
+  
+  /**
+   * Specifies the need to scale {@link BitMatrix} (type {@link Boolean})
+   */
+  PDF417_SCALE,
 
   /**
    * Specifies the required number of layers for an Aztec code:
