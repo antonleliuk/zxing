@@ -16,22 +16,25 @@
 
 package com.google.zxing.client.android;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.EditTextPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 
 public final class PreferencesFragment 
     extends PreferenceFragment 
     implements SharedPreferences.OnSharedPreferenceChangeListener {
-  
-  private CheckBoxPreference decode1D;
-  private CheckBoxPreference decodeQR;
-  private CheckBoxPreference decodeDataMatrix;
+
+  private CheckBoxPreference[] checkBoxPrefs;
   
   @Override
   public void onCreate(Bundle icicle) {
@@ -40,10 +43,26 @@ public final class PreferencesFragment
     
     PreferenceScreen preferences = getPreferenceScreen();
     preferences.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-    decode1D = (CheckBoxPreference) preferences.findPreference(PreferencesActivity.KEY_DECODE_1D);
-    decodeQR = (CheckBoxPreference) preferences.findPreference(PreferencesActivity.KEY_DECODE_QR);
-    decodeDataMatrix = (CheckBoxPreference) preferences.findPreference(PreferencesActivity.KEY_DECODE_DATA_MATRIX);
+    checkBoxPrefs = findDecodePrefs(preferences,
+                                    PreferencesActivity.KEY_DECODE_1D_PRODUCT,
+                                    PreferencesActivity.KEY_DECODE_1D_INDUSTRIAL,
+                                    PreferencesActivity.KEY_DECODE_QR,
+                                    PreferencesActivity.KEY_DECODE_DATA_MATRIX,
+                                    PreferencesActivity.KEY_DECODE_AZTEC,
+                                    PreferencesActivity.KEY_DECODE_PDF417);
     disableLastCheckedPref();
+
+    EditTextPreference customProductSearch = (EditTextPreference)
+        preferences.findPreference(PreferencesActivity.KEY_CUSTOM_PRODUCT_SEARCH);
+    customProductSearch.setOnPreferenceChangeListener(new CustomSearchURLValidator());
+  }
+
+  private static CheckBoxPreference[] findDecodePrefs(PreferenceScreen preferences, String... keys) {
+    CheckBoxPreference[] prefs = new CheckBoxPreference[keys.length];
+    for (int i = 0; i < keys.length; i++) {
+      prefs[i] = (CheckBoxPreference) preferences.findPreference(keys[i]);
+    }
+    return prefs;
   }
   
   @Override
@@ -52,20 +71,56 @@ public final class PreferencesFragment
   }
 
   private void disableLastCheckedPref() {
-    Collection<CheckBoxPreference> checked = new ArrayList<CheckBoxPreference>(3);
-    if (decode1D.isChecked()) {
-      checked.add(decode1D);
+    Collection<CheckBoxPreference> checked = new ArrayList<>(checkBoxPrefs.length);
+    for (CheckBoxPreference pref : checkBoxPrefs) {
+      if (pref.isChecked()) {
+        checked.add(pref);
+      }
     }
-    if (decodeQR.isChecked()) {
-      checked.add(decodeQR);
-    }
-    if (decodeDataMatrix.isChecked()) {
-      checked.add(decodeDataMatrix);
-    }
-    boolean disable = checked.size() < 2;
-    CheckBoxPreference[] checkBoxPreferences = {decode1D, decodeQR, decodeDataMatrix};
-    for (CheckBoxPreference pref : checkBoxPreferences) {
+    boolean disable = checked.size() <= 1;
+    for (CheckBoxPreference pref : checkBoxPrefs) {
       pref.setEnabled(!(disable && checked.contains(pref)));
     }
   }
+
+  private class CustomSearchURLValidator implements Preference.OnPreferenceChangeListener {
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+      if (!isValid(newValue)) {
+        AlertDialog.Builder builder =
+            new AlertDialog.Builder(PreferencesFragment.this.getActivity());
+        builder.setTitle(R.string.msg_error);
+        builder.setMessage(R.string.msg_invalid_value);
+        builder.setCancelable(true);
+        builder.show();
+        return false;
+      }
+      return true;
+    }
+
+    private boolean isValid(Object newValue) {
+      // Allow empty/null value
+      if (newValue == null) {
+        return true;
+      }
+      String valueString = newValue.toString();
+      if (valueString.isEmpty()) {
+        return true;
+      }
+      // Before validating, remove custom placeholders, which will not
+      // be considered valid parts of the URL in some locations:
+      // Blank %t and %s:
+      valueString = valueString.replaceAll("%[st]", "");
+      // Blank %f but not if followed by digit or a-f as it may be a hex sequence
+      valueString = valueString.replaceAll("%f(?![0-9a-f])", "");
+      // Require a scheme otherwise:
+      try {
+        URI uri = new URI(valueString);
+        return uri.getScheme() != null;
+      } catch (URISyntaxException use) {
+        return false;
+      }
+    }
+  }
+
 }

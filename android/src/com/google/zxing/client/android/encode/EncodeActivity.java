@@ -105,6 +105,7 @@ public final class EncodeActivity extends Activity {
           return false;
         }
         intent.putExtra(USE_VCARD_KEY, !qrCodeEncoder.isUseVCard());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
         return true;
@@ -145,7 +146,10 @@ public final class EncodeActivity extends Activity {
       return;
     }
     File barcodeFile = new File(barcodesRoot, makeBarcodeFileName(contents) + ".png");
-    barcodeFile.delete();
+    if (!barcodeFile.delete()) {
+      Log.w(TAG, "Could not delete " + barcodeFile);
+      // continue anyway
+    }
     FileOutputStream fos = null;
     try {
       fos = new FileOutputStream(barcodeFile);

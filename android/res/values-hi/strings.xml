@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">समय</string>
   <string name="msg_default_type">टाइप</string>
   <string name="msg_encode_contents_failed">उपलब्ध कराए गए आंकड़ों से एक बारकोड सांकेतिक शब्दों में बदलना नहीं कर सका.</string>
+  <string name="msg_error">त्रुटि</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">क्षमा करें, अनुरोध आवेदन शुरू नहीं किया जा सका. बारकोड सामग्री अमान्य हो सकता है.</string>
+  <string name="msg_invalid_value">अवैध मान</string>
   <string name="msg_redirect">पुनर्निर्देशन</string>
   <string name="msg_sbc_book_not_searchable">क्षमा करें, इस किताब को खोजा नहीं है.</string>
   <string name="msg_sbc_failed">क्षमा करें, खोज एक समस्या का सामना करना पड़ा.</string>
@@ -86,18 +88,24 @@
   <string name="msg_unmount_usb">क्षमा करें, एसडी कार्ड सुलभ नहीं है.</string>
   <string name="preferences_actions_title">जब एक बारकोड पाया जाता है\u2026</string>
   <string name="preferences_auto_focus_title">ऑटो फोकस का उपयोग करें</string>
+  <string name="preferences_auto_open_web_title">वेब पृष्ठों को स्वचालित रूप से खोलें</string>
   <string name="preferences_bulk_mode_summary">स्कैन और कई बारकोड लगातार बचाने के</string>
   <string name="preferences_bulk_mode_title">थोक स्कैन मोड</string>
   <string name="preferences_copy_to_clipboard_title">क्लिपबोर्ड पर कॉपी</string>
   <string name="preferences_custom_product_search_summary" formatted="false">स्थानापन्न: %s = सामग्री, %f = प्रारूप, %t = टाइप</string>
   <string name="preferences_custom_product_search_title">कस्टम खोज यूआरएल</string>
-  <string name="preferences_decode_1D_title">1D बारकोड</string>
+  <string name="preferences_decode_1D_industrial_title">1D औद्योगिक</string>
+  <string name="preferences_decode_1D_product_title">1D उत्पाद</string>
+  <string name="preferences_decode_Aztec_title">एज़्टेक</string>
   <string name="preferences_decode_Data_Matrix_title">डाटा मैट्रिक्स</string>
+  <string name="preferences_decode_PDF417_title">PDF417 (β)</string>
   <string name="preferences_decode_QR_title">QR कोड</string>
   <string name="preferences_device_bug_workarounds_title">युक्ति बग वर्कअराउन्ड</string>
+  <string name="preferences_disable_barcode_scene_mode_title">कोई बारकोड दृश्य विधा</string>
   <string name="preferences_disable_continuous_focus_summary">केवल मानक फोकस मोड का उपयोग करें</string>
   <string name="preferences_disable_continuous_focus_title">कोई निरंतर ध्यान</string>
   <string name="preferences_disable_exposure_title">कोई जोखिम</string>
+  <string name="preferences_disable_metering_title">कोई पैमाइश</string>
   <string name="preferences_front_light_auto">स्वचालित</string>
   <string name="preferences_front_light_off">निष्क्रिय</string>
   <string name="preferences_front_light_on">सक्रिय</string>
@@ -107,6 +115,7 @@
   <string name="preferences_invert_scan_summary">काली पृष्ठभूमि पर सफेद बारकोड के लिए स्कैन करें. कुछ उपकरणों पर उपलब्ध नहीं है.</string>
   <string name="preferences_invert_scan_title">स्कैन उलटें</string>
   <string name="preferences_name">सेटिंग्स</string>
+  <string name="preferences_orientation_title">कोई स्वचालित रोटेशन</string>
   <string name="preferences_play_beep_title">भोंपू</string>
   <string name="preferences_remember_duplicates_summary">इतिहास में एक ही बारकोड के स्टोर एकाधिक स्कैन</string>
   <string name="preferences_remember_duplicates_title">डुप्लिकेट याद रखें</string>
@@ -115,8 +124,6 @@
   <string name="preferences_search_country">खोज देश</string>
   <string name="preferences_supplemental_summary">बारकोड सामग्री के बारे में में अधिक जानकारी पुनः प्राप्त करने की कोशिश करो</string>
   <string name="preferences_supplemental_title">अधिक जानकारी पुनर्प्राप्त</string>
-  <string name="preferences_try_bsplus">बारकोड स्कैनर की कोशिश +</string>
-  <string name="preferences_try_bsplus_summary">नई सुविधाओं और इंटरफेस के साथ बढ़ाया</string>
   <string name="preferences_vibrate_title">कांपना</string>
   <string name="result_address_book">मिला संपर्क जानकारी</string>
   <string name="result_calendar">मिला कैलेंडर घटना</string>
@@ -131,6 +138,4 @@
   <string name="result_wifi">मिला WLAN विन्यास</string>
   <string name="sbc_name">Google पुस्तक खोज</string>
   <string name="wifi_changing_network">नेटवर्क के लिए कनेक्शन का अनुरोध कर रहा है \u2026</string>
-  <string name="wifi_ssid_label">नेटवर्क नाम</string>
-  <string name="wifi_type_label">टाइप</string>
 </resources>

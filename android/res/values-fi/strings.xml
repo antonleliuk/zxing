@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">Aika</string>
   <string name="msg_default_type">Tyyppi</string>
   <string name="msg_encode_contents_failed">Viivakoodia ei voitu muodostaa annetusta datasta.</string>
+  <string name="msg_error">Virhe</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">Valitettavasti pyydettyä sovellusta ei voitu käynnistää. Viivakoodin sisältö voi olla virheellinen.</string>
+  <string name="msg_invalid_value">Virheellinen arvo</string>
   <string name="msg_redirect">Uudelleenohjaus</string>
   <string name="msg_sbc_book_not_searchable">Valitettavasti tämä kirja ei ole haettavissa.</string>
   <string name="msg_sbc_failed">Valitettavasti haussa tapahtui virhe.</string>
@@ -86,18 +88,24 @@
   <string name="msg_unmount_usb">SD-kortti ei ole käytettävissä.</string>
   <string name="preferences_actions_title">Kun viivakoodi löytyy\u2026</string>
   <string name="preferences_auto_focus_title">Käytä automaattista tarkennusta</string>
+  <string name="preferences_auto_open_web_title">Avaa Web-sivujen automaattisesti</string>
   <string name="preferences_bulk_mode_summary">Skannaa ja tallenna viivakoodeja jatkuvasti</string>
   <string name="preferences_bulk_mode_title">Jatkuva skannaus</string>
   <string name="preferences_copy_to_clipboard_title">Kopioi leikepöydälle</string>
   <string name="preferences_custom_product_search_summary" formatted="false">Seuraavat korvataan: %s = sisältö, %f = formaatti, %t = tyyppi</string>
   <string name="preferences_custom_product_search_title">Mukautettu hakukone</string>
-  <string name="preferences_decode_1D_title">1D-viivakoodit</string>
+  <string name="preferences_decode_1D_industrial_title">1D Industrial</string>
+  <string name="preferences_decode_1D_product_title">1D Tuote</string>
+  <string name="preferences_decode_Aztec_title">Aztec</string>
   <string name="preferences_decode_Data_Matrix_title">Data Matrix</string>
+  <string name="preferences_decode_PDF417_title">PDF417 (β)</string>
   <string name="preferences_decode_QR_title">QR-koodit</string>
   <string name="preferences_device_bug_workarounds_title">Laitteen vikojen kiertäminen</string>
+  <string name="preferences_disable_barcode_scene_mode_title">Ei viivakoodin näkymätilaa</string>
   <string name="preferences_disable_continuous_focus_summary">Käytä vain vakiotarkennusta</string>
   <string name="preferences_disable_continuous_focus_title">Ei jatkuvaa tarkennusta</string>
   <string name="preferences_disable_exposure_title">Ei valotusta</string>
+  <string name="preferences_disable_metering_title">Ei mittausta</string>
   <string name="preferences_front_light_auto">Automaattinen</string>
   <string name="preferences_front_light_off">Pois</string>
   <string name="preferences_front_light_on">Päällä</string>
@@ -107,6 +115,7 @@
   <string name="preferences_invert_scan_summary">Etsi valkoisia viivakoodeja mustalla taustalla. Ei toimi kaikilla laitteilla.</string>
   <string name="preferences_invert_scan_title">Käänteinen (negatiivin) skannaus</string>
   <string name="preferences_name">Asetukset</string>
+  <string name="preferences_orientation_title">Ei automaattista kiertoa</string>
   <string name="preferences_play_beep_title">Piippaus</string>
   <string name="preferences_remember_duplicates_summary">Jos sama viivakoodi skannetaan useasti, tallenna jokainen skannauskerta historiaan</string>
   <string name="preferences_remember_duplicates_title">Muista kaksoiskappaleet</string>
@@ -115,8 +124,6 @@
   <string name="preferences_search_country">Etsi maasta</string>
   <string name="preferences_supplemental_summary">Yritä hakea lisätietoja viivakoodin sisällöstä</string>
   <string name="preferences_supplemental_title">Hae lisää tietoa</string>
-  <string name="preferences_try_bsplus">Kokeile Barcode Scanner+ -ohjelmaa</string>
-  <string name="preferences_try_bsplus_summary">Parannettu uusilla ominaisuuksilla ja käyttöliittymällä</string>
   <string name="preferences_vibrate_title">Värinä</string>
   <string name="result_address_book">Löydettiin yhteystietoja</string>
   <string name="result_calendar">Löydettiin kalenteritapahtuma</string>
@@ -131,6 +138,4 @@
   <string name="result_wifi">Löydettiin asetukset langattomalle yhteydelle</string>
   <string name="sbc_name">Googlen kirjahaku</string>
   <string name="wifi_changing_network">Pyydetään yhteyttä verkkoon\u2026</string>
-  <string name="wifi_ssid_label">Verkon nimi</string>
-  <string name="wifi_type_label">Tyyppi</string>
 </resources>

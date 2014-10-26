@@ -36,6 +36,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -51,6 +52,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -162,6 +164,14 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     handler = null;
     lastResult = null;
 
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+    if (prefs.getBoolean(PreferencesActivity.KEY_DISABLE_AUTO_ORIENTATION, true)) {
+      setRequestedOrientation(getCurrentOrientation());
+    } else {
+      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+    }
+
     resetStatusView();
 
     SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
@@ -182,7 +192,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     Intent intent = getIntent();
 
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
     copyToClipboard = prefs.getBoolean(PreferencesActivity.KEY_COPY_TO_CLIPBOARD, true)
         && (intent == null || intent.getBooleanExtra(Intents.Scan.SAVE_HISTORY, true));
 
@@ -207,6 +216,13 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
           int height = intent.getIntExtra(Intents.Scan.HEIGHT, 0);
           if (width > 0 && height > 0) {
             cameraManager.setManualFramingRect(width, height);
+          }
+        }
+
+        if (intent.hasExtra(Intents.Scan.CAMERA_ID)) {
+          int cameraId = intent.getIntExtra(Intents.Scan.CAMERA_ID, -1);
+          if (cameraId >= 0) {
+            cameraManager.setManualCameraId(cameraId);
           }
         }
         
@@ -242,6 +258,17 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     }
   }
+
+  private int getCurrentOrientation() {
+    int rotation = getWindowManager().getDefaultDisplay().getRotation();
+    switch (rotation) {
+      case Surface.ROTATION_0:
+      case Surface.ROTATION_90:
+        return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+      default:
+        return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+    }
+  }
   
   private static boolean isZXingURL(String dataString) {
     if (dataString == null) {
@@ -263,6 +290,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     }
     inactivityTimer.onPause();
     ambientLightManager.stop();
+    beepManager.close();
     cameraManager.closeDriver();
     if (!hasSurface) {
       SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
@@ -483,6 +511,20 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
   // Put up our own UI for how to handle the decoded contents.
   private void handleDecodeInternally(Result rawResult, ResultHandler resultHandler, Bitmap barcode) {
+
+    CharSequence displayContents = resultHandler.getDisplayContents();
+
+    if (copyToClipboard && !resultHandler.areContentsSecure()) {
+      ClipboardInterface.setText(displayContents, this);
+    }
+
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+    if (resultHandler.getDefaultButtonID() != null && prefs.getBoolean(PreferencesActivity.KEY_AUTO_OPEN_WEB, false)) {
+      resultHandler.handleButtonPress(resultHandler.getDefaultButtonID());
+      return;
+    }
+
     statusView.setVisibility(View.GONE);
     viewfinderView.setVisibility(View.GONE);
     resultView.setVisibility(View.VISIBLE);
@@ -527,9 +569,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     }
 
     TextView contentsTextView = (TextView) findViewById(R.id.contents_text_view);
-    CharSequence displayContents = resultHandler.getDisplayContents();
     contentsTextView.setText(displayContents);
-    // Crudely scale betweeen 22 and 32 -- bigger font for shorter text
     int scaledSize = Math.max(22, 32 - displayContents.length() / 4);
     contentsTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, scaledSize);
 
@@ -558,9 +598,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       }
     }
 
-    if (copyToClipboard && !resultHandler.areContentsSecure()) {
-      ClipboardInterface.setText(displayContents, this);
-    }
   }
 
   // Briefly show the contents of the barcode, then handle the result outside Barcode Scanner.
@@ -617,6 +654,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         if (ecLevel != null) {
           intent.putExtra(Intents.Scan.RESULT_ERROR_CORRECTION_LEVEL, ecLevel);
         }
+        @SuppressWarnings("unchecked")
         Iterable<byte[]> byteSegments = (Iterable<byte[]>) metadata.get(ResultMetadataType.BYTE_SEGMENTS);
         if (byteSegments != null) {
           int i = 0;

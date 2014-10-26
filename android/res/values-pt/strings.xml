@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">Tempo</string>
   <string name="msg_default_type">Tipo</string>
   <string name="msg_encode_contents_failed">Não foi possível codificar o código de barradas apartir dos dados fornecidos.</string>
+  <string name="msg_error">Erro</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">Desculpe, a aplicação solicitada não pode ser iniciada. O conteúdo do código de barras poderá ser inválido.</string>
+  <string name="msg_invalid_value">Valor inválido</string>
   <string name="msg_redirect">Redirecionar</string>
   <string name="msg_sbc_book_not_searchable">Desculpe, este livro não é pesquisável.</string>
   <string name="msg_sbc_failed">Desculpe, foi encontrado um erro na pesquisa.</string>
@@ -86,18 +88,24 @@
   <string name="msg_unmount_usb">Desculpe, o cartão SD não está disponível.</string>
   <string name="preferences_actions_title">Quando o código de barras é encontrado\u2026</string>
   <string name="preferences_auto_focus_title">Usar foco automático</string>
+  <string name="preferences_auto_open_web_title">Abrir páginas da web automaticamente</string>
   <string name="preferences_bulk_mode_summary">Ler e guardar códigos de barras continuamente</string>
   <string name="preferences_bulk_mode_title">Modo em massa</string>
   <string name="preferences_copy_to_clipboard_title">Copiar para a área de transferência</string>
   <string name="preferences_custom_product_search_summary" formatted="false">Substituições: %s = conteúdos, %f = formato, %t = tipo</string>
   <string name="preferences_custom_product_search_title">Pesquisa personalizada de URL</string>
-  <string name="preferences_decode_1D_title">Código de barras 1D</string>
+  <string name="preferences_decode_1D_industrial_title">Indústrial 1D</string>
+  <string name="preferences_decode_1D_product_title">Produto 1D</string>
+  <string name="preferences_decode_Aztec_title">Aztec</string>
   <string name="preferences_decode_Data_Matrix_title">Data Matrix</string>
+  <string name="preferences_decode_PDF417_title">PDF417 (β)</string>
   <string name="preferences_decode_QR_title">QR Codes</string>
   <string name="preferences_device_bug_workarounds_title">Soluções alternativas de dispositivos com erros</string>
+  <string name="preferences_disable_barcode_scene_mode_title">No modo de cena de código de barras</string>
   <string name="preferences_disable_continuous_focus_summary">Use apenas o modo de focagem padrão</string>
   <string name="preferences_disable_continuous_focus_title">No foco contínuo</string>
   <string name="preferences_disable_exposure_title">Nenhuma exposição</string>
+  <string name="preferences_disable_metering_title">Sem medição</string>
   <string name="preferences_front_light_auto">Automático</string>
   <string name="preferences_front_light_off">Inativo</string>
   <string name="preferences_front_light_on">Ativo</string>
@@ -107,6 +115,7 @@
   <string name="preferences_invert_scan_summary">Procurar por códigos de barras brancos em fundo preto. Não disponível em certos dispositivos.</string>
   <string name="preferences_invert_scan_title">Inverter leitura</string>
   <string name="preferences_name">Definições</string>
+  <string name="preferences_orientation_title">Sem rotação automática</string>
   <string name="preferences_play_beep_title">Apitar</string>
   <string name="preferences_remember_duplicates_summary">Guardar pesquisas múltiplas do mesmo código de barras no histórico</string>
   <string name="preferences_remember_duplicates_title">Lembrar duplicados</string>
@@ -115,8 +124,6 @@
   <string name="preferences_search_country">País busca</string>
   <string name="preferences_supplemental_summary">Tentar recuperar mais informação sobre os conteúdos dos códigos de barras</string>
   <string name="preferences_supplemental_title">Recuperar mais informação</string>
-  <string name="preferences_try_bsplus">Tente Barcode Scanner+</string>
-  <string name="preferences_try_bsplus_summary">Aprimorado com novos recursos e interface</string>
   <string name="preferences_vibrate_title">Vibrar</string>
   <string name="result_address_book">Info de contacto encontrada</string>
   <string name="result_calendar">Evento de calendário encontrado</string>
@@ -131,6 +138,4 @@
   <string name="result_wifi">Configuração WLAN encontrados</string>
   <string name="sbc_name">Pesquisa Google Book</string>
   <string name="wifi_changing_network">Solicitando ligação à rede\u2026</string>
-  <string name="wifi_ssid_label">Nome da Rede</string>
-  <string name="wifi_type_label">Tipo</string>
 </resources>

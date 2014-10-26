@@ -33,7 +33,6 @@ import android.provider.Browser;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import com.google.zxing.client.android.clipboard.ClipboardInterface;
 
@@ -53,7 +52,7 @@ public final class ShareActivity extends Activity {
 
   private View clipboardButton;
 
-  private final Button.OnClickListener contactListener = new Button.OnClickListener() {
+  private final View.OnClickListener contactListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
@@ -62,7 +61,7 @@ public final class ShareActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener bookmarkListener = new Button.OnClickListener() {
+  private final View.OnClickListener bookmarkListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       Intent intent = new Intent(Intent.ACTION_PICK);
@@ -72,7 +71,7 @@ public final class ShareActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener appListener = new Button.OnClickListener() {
+  private final View.OnClickListener appListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       Intent intent = new Intent(Intent.ACTION_PICK);
@@ -82,7 +81,7 @@ public final class ShareActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener clipboardListener = new Button.OnClickListener() {
+  private final View.OnClickListener clipboardListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       // Should always be true, because we grey out the clipboard button in onResume() if it's empty
@@ -221,11 +220,14 @@ public final class ShareActivity extends Activity {
         try {
           int foundPhone = 0;
           int phonesNumberColumn = phonesCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+          int phoneTypeColumn = phonesCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE);
           while (phonesCursor.moveToNext() && foundPhone < Contents.PHONE_KEYS.length) {
             String number = phonesCursor.getString(phonesNumberColumn);
             if (number != null && !number.isEmpty()) {
               bundle.putString(Contents.PHONE_KEYS[foundPhone], massageContactData(number));
             }
+            int type = phonesCursor.getInt(phoneTypeColumn);
+            bundle.putInt(Contents.PHONE_TYPE_KEYS[foundPhone], type);
             foundPhone++;
           }
         } finally {

@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">Czas</string>
   <string name="msg_default_type">Typ</string>
   <string name="msg_encode_contents_failed">Nie można zakodować kodu paskowego z dostarczonych danych.</string>
+  <string name="msg_error">Błąd</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">Przepraszamy, żadana aplikacja nie może zostać uruchomiona. Zawartość kodu paskowego może być nieprawidłowa.</string>
+  <string name="msg_invalid_value">Nieprawidłowa wartość</string>
   <string name="msg_redirect">Przekierowanie</string>
   <string name="msg_sbc_book_not_searchable">Przepraszamy, ta książka nie jest przeszukiwalna.</string>
   <string name="msg_sbc_failed">Przepraszamy, wyszukiwania napotkało problem.</string>
@@ -86,18 +88,24 @@
   <string name="msg_unmount_usb">Niestety, karta SD nie jest dostępna.</string>
   <string name="preferences_actions_title">Akcja po odnalezieniu kodu\u2026</string>
   <string name="preferences_auto_focus_title">Ustaw ostrość</string>
+  <string name="preferences_auto_open_web_title">Otwieranie stron internetowych automatycznie</string>
   <string name="preferences_bulk_mode_summary">Skanowanie i zapisywanie wielu kodów kreskowych jeden po drugim w trybie ciągłym</string>
   <string name="preferences_bulk_mode_title">Tryb ciągłego skanowania</string>
   <string name="preferences_copy_to_clipboard_title">Kopiuj do schowka</string>
   <string name="preferences_custom_product_search_summary" formatted="false">Zastępstwa: %s = zawartość, %f = format, %t = typ</string>
   <string name="preferences_custom_product_search_title">Własny URL wyszukiwania</string>
-  <string name="preferences_decode_1D_title">Dekoduj kody 1D</string>
+  <string name="preferences_decode_1D_industrial_title">1D przemysłowe</string>
+  <string name="preferences_decode_1D_product_title">1D wyrobów</string>
+  <string name="preferences_decode_Aztec_title">Aztek</string>
   <string name="preferences_decode_Data_Matrix_title">Dekoduj Decode Matrix</string>
+  <string name="preferences_decode_PDF417_title">PDF417 (β)</string>
   <string name="preferences_decode_QR_title">Dekoduj kody QR</string>
   <string name="preferences_device_bug_workarounds_title">Obejścia błędów urządzeń</string>
+  <string name="preferences_disable_barcode_scene_mode_title">Brak trybu sceny barcode</string>
   <string name="preferences_disable_continuous_focus_summary">Używaj tylko standardowego trybu ostrości</string>
   <string name="preferences_disable_continuous_focus_title">Ostrość</string>
   <string name="preferences_disable_exposure_title">Bez ekspozycji</string>
+  <string name="preferences_disable_metering_title">Nr pomiaru</string>
   <string name="preferences_front_light_auto">Automatyczny</string>
   <string name="preferences_front_light_off">Nieaktywny</string>
   <string name="preferences_front_light_on">Aktywny</string>
@@ -107,6 +115,7 @@
   <string name="preferences_invert_scan_summary">Skanowanie białych kodów kreskowych na czarnym tle. Nie dostępne w niektórych urządzeniach.</string>
   <string name="preferences_invert_scan_title">Odwróć skanowania</string>
   <string name="preferences_name">Ustawienia</string>
+  <string name="preferences_orientation_title">Brak automatycznego obracania</string>
   <string name="preferences_play_beep_title">Piszcz</string>
   <string name="preferences_remember_duplicates_summary">Przechowuj zaskanowane kody w tej samej historii</string>
   <string name="preferences_remember_duplicates_title">Pamiętaj, duplikaty</string>
@@ -115,8 +124,6 @@
   <string name="preferences_search_country">Szukaj kraju</string>
   <string name="preferences_supplemental_summary">Spróbuj wyszukać więcej informacji na temat kodów kreskowych</string>
   <string name="preferences_supplemental_title">Pobierz więcej informacji</string>
-  <string name="preferences_try_bsplus">Wypróbuj Barcode Scanner+</string>
-  <string name="preferences_try_bsplus_summary">Wzbogacony o nowe funkcje i interfejs</string>
   <string name="preferences_vibrate_title">Wibruj</string>
   <string name="result_address_book">Znaleziono dane kontaktu</string>
   <string name="result_calendar">Znaleziono wydarzenie z kalendarza</string>
@@ -131,6 +138,4 @@
   <string name="result_wifi">Znaleziono konfiguracje sieci</string>
   <string name="sbc_name">Wyszukiwanie książek Google</string>
   <string name="wifi_changing_network">Ubiegającymi się o przyłączenie do sieci\u2026</string>
-  <string name="wifi_ssid_label">Nazwa sieci</string>
-  <string name="wifi_type_label">Typ</string>
 </resources>

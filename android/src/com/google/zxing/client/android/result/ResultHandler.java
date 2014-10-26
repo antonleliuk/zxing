@@ -30,6 +30,7 @@ import com.google.zxing.client.result.ResultParser;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -40,6 +41,7 @@ import android.util.Log;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Locale;
+import java.util.ArrayList;
 
 /**
  * A base class for the Android-specific barcode handlers. These allow the app to polymorphically
@@ -123,6 +125,9 @@ public abstract class ResultHandler {
    */
   public abstract int getButtonText(int index);
 
+  public Integer getDefaultButtonID() {
+    return null;
+  }
 
   /**
    * Execute the action which corresponds to the nth button.
@@ -221,26 +226,48 @@ public abstract class ResultHandler {
       }
     }
 
-    // No field for URL, birthday; use notes
-    StringBuilder aggregatedNotes = new StringBuilder();
+    ArrayList<ContentValues> data = new ArrayList<>();
     if (urls != null) {
       for (String url : urls) {
         if (url != null && !url.isEmpty()) {
-          aggregatedNotes.append('\n').append(url);
+          ContentValues row = new ContentValues(2);
+          row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE);
+          row.put(ContactsContract.CommonDataKinds.Website.URL, url);
+          data.add(row);
+          break;
         }
       }
     }
-    for (String aNote : new String[] { birthday, note }) {
-      if (aNote != null) {
-        aggregatedNotes.append('\n').append(aNote);
-      }
+
+    if (birthday != null) {
+      ContentValues row = new ContentValues(3);
+      row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE);
+      row.put(ContactsContract.CommonDataKinds.Event.TYPE, ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY);
+      row.put(ContactsContract.CommonDataKinds.Event.START_DATE, birthday);
+      data.add(row);
     }
+
     if (nicknames != null) {
       for (String nickname : nicknames) {
         if (nickname != null && !nickname.isEmpty()) {
-          aggregatedNotes.append('\n').append(nickname);
+          ContentValues row = new ContentValues(3);
+          row.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Nickname.CONTENT_ITEM_TYPE);
+          row.put(ContactsContract.CommonDataKinds.Nickname.TYPE,
+                  ContactsContract.CommonDataKinds.Nickname.TYPE_DEFAULT);
+          row.put(ContactsContract.CommonDataKinds.Nickname.NAME, nickname);
+          data.add(row);
+          break;
         }
       }
+    }
+
+    if (!data.isEmpty()) {
+      intent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, data);
+    }
+
+    StringBuilder aggregatedNotes = new StringBuilder();
+    if (note != null) {
+      aggregatedNotes.append('\n').append(note);
     }
     if (geo != null) {
       aggregatedNotes.append('\n').append(geo[0]).append(',').append(geo[1]);
@@ -290,18 +317,23 @@ public abstract class ResultHandler {
   }
 
   final void shareByEmail(String contents) {
-    sendEmailFromUri("mailto:", null, null, contents);
+    sendEmail(null, null, null, null, contents);
   }
 
-  final void sendEmail(String address, String subject, String body) {
-    sendEmailFromUri("mailto:" + address, address, subject, body);
-  }
-
-  // Use public Intent fields rather than private GMail app fields to specify subject and body.
-  final void sendEmailFromUri(String uri, String email, String subject, String body) {
-    Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse(uri));
-    if (email != null) {
-      intent.putExtra(Intent.EXTRA_EMAIL, new String[] {email});
+  final void sendEmail(String[] to,
+                       String[] cc,
+                       String[] bcc,
+                       String subject,
+                       String body) {
+    Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse("mailto:"));
+    if (to != null && to.length != 0) {
+      intent.putExtra(Intent.EXTRA_EMAIL, to);
+    }
+    if (cc != null && cc.length != 0) {
+      intent.putExtra(Intent.EXTRA_CC, cc);
+    }
+    if (bcc != null && bcc.length != 0) {
+      intent.putExtra(Intent.EXTRA_BCC, bcc);
     }
     putExtra(intent, Intent.EXTRA_SUBJECT, subject);
     putExtra(intent, Intent.EXTRA_TEXT, body);
@@ -358,14 +390,9 @@ public abstract class ResultHandler {
    * Do a geo search using the address as the query.
    *
    * @param address The address to find
-   * @param title An optional title, e.g. the name of the business at this address
    */
-  final void searchMap(String address, String title) {
-    String query = address;
-    if (title != null && !title.isEmpty()) {
-      query += " (" + title + ')';
-    }
-    launchIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + Uri.encode(query))));
+  final void searchMap(String address) {
+    launchIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=" + Uri.encode(address))));
   }
 
   final void getDirections(double latitude, double longitude) {
@@ -469,15 +496,18 @@ public abstract class ResultHandler {
     } catch (UnsupportedEncodingException e) {
       // can't happen; UTF-8 is always supported. Continue, I guess, without encoding      
     }
-    String url = customProductSearch.replace("%s", text);
+    String url = customProductSearch;
     if (rawResult != null) {
-      url = url.replace("%f", rawResult.getBarcodeFormat().toString());
+      // Replace %f but only if it doesn't seem to be a hex escape sequence. This remains
+      // problematic but avoids the more surprising problem of breaking escapes
+      url = url.replaceFirst("%f(?![0-9a-f])", rawResult.getBarcodeFormat().toString());
       if (url.contains("%t")) {
         ParsedResult parsedResultAgain = ResultParser.parseResult(rawResult);
         url = url.replace("%t", parsedResultAgain.getType().toString());
       }
     }
-    return url;
+    // Replace %s last as it might contain itself %f or %t
+    return url.replace("%s", text);
   }
 
 }

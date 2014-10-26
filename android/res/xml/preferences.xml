@@ -17,9 +17,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
   <PreferenceCategory android:title="@string/preferences_scanning_title">
     <CheckBoxPreference
-        android:key="preferences_decode_1D"
+        android:key="preferences_decode_1D_product"
         android:defaultValue="true"
-        android:title="@string/preferences_decode_1D_title"/>
+        android:title="@string/preferences_decode_1D_product_title"/>
+    <CheckBoxPreference
+        android:key="preferences_decode_1D_industrial"
+        android:defaultValue="true"
+        android:title="@string/preferences_decode_1D_industrial_title"/>
     <CheckBoxPreference
         android:key="preferences_decode_QR"
         android:defaultValue="true"
@@ -28,6 +32,14 @@
         android:key="preferences_decode_Data_Matrix"
         android:defaultValue="true"
         android:title="@string/preferences_decode_Data_Matrix_title"/>
+    <CheckBoxPreference
+        android:key="preferences_decode_Aztec"
+        android:defaultValue="false"
+        android:title="@string/preferences_decode_Aztec_title"/>
+    <CheckBoxPreference
+        android:key="preferences_decode_PDF417"
+        android:defaultValue="false"
+        android:title="@string/preferences_decode_PDF417_title"/>
   </PreferenceCategory>
   <PreferenceCategory android:title="@string/preferences_actions_title">
     <CheckBoxPreference
@@ -43,6 +55,10 @@
         android:defaultValue="true"
         android:title="@string/preferences_copy_to_clipboard_title"/>
     <CheckBoxPreference
+        android:key="preferences_auto_open_web"
+        android:defaultValue="false"
+        android:title="@string/preferences_auto_open_web_title"/>
+    <CheckBoxPreference
         android:key="preferences_remember_duplicates"
         android:defaultValue="false"
         android:title="@string/preferences_remember_duplicates_title"
@@ -52,12 +68,6 @@
         android:defaultValue="true"
         android:title="@string/preferences_supplemental_title"
         android:summary="@string/preferences_supplemental_summary"/>
-  </PreferenceCategory>
-  <PreferenceCategory android:title="@string/preferences_result_title">
-    <EditTextPreference
-        android:key="preferences_custom_product_search"
-        android:title="@string/preferences_custom_product_search_title"
-        android:summary="@string/preferences_custom_product_search_summary"/>
   </PreferenceCategory>
   <PreferenceCategory android:title="@string/preferences_general_title">
     <ListPreference
@@ -81,6 +91,16 @@
         android:defaultValue="false"
         android:title="@string/preferences_bulk_mode_title"
         android:summary="@string/preferences_bulk_mode_summary"/>
+    <CheckBoxPreference
+        android:key="preferences_orientation"
+        android:defaultValue="true"
+        android:title="@string/preferences_orientation_title"/>
+  </PreferenceCategory>
+  <PreferenceCategory android:title="@string/preferences_result_title">
+    <EditTextPreference
+        android:key="preferences_custom_product_search"
+        android:title="@string/preferences_custom_product_search_title"
+        android:summary="@string/preferences_custom_product_search_summary"/>
     <ListPreference
         android:key="preferences_search_country"
         android:defaultValue="-"
@@ -94,17 +114,17 @@
         android:defaultValue="true"
         android:title="@string/preferences_disable_continuous_focus_title"
         android:summary="@string/preferences_disable_continuous_focus_summary"/>
-    <!--
     <CheckBoxPreference
         android:key="preferences_disable_exposure"
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:title="@string/preferences_disable_exposure_title"/>
-     -->
-  </PreferenceCategory>
-  <PreferenceCategory android:title="@string/preferences_try_bsplus">
-    <Preference android:title="@string/preferences_try_bsplus"
-                android:summary="@string/preferences_try_bsplus_summary">
-      <intent android:action="android.intent.action.VIEW" android:data="market://details?id=com.srowen.bs.android" />
-    </Preference>
+    <CheckBoxPreference
+        android:key="preferences_disable_metering"
+        android:defaultValue="true"
+        android:title="@string/preferences_disable_metering_title"/>
+    <CheckBoxPreference
+        android:key="preferences_disable_barcode_scene_mode"
+        android:defaultValue="true"
+        android:title="@string/preferences_disable_barcode_scene_mode_title"/>
   </PreferenceCategory>
 </PreferenceScreen>

@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">Zeit</string>
   <string name="msg_default_type">Typ</string>
   <string name="msg_encode_contents_failed">Aus den Daten kann kein Barcode erzeugt werden.</string>
+  <string name="msg_error">Fehler</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">Die gewünschte Applikation kann nicht geöffnet werden. Der Barcode könnte ungültig sein.</string>
+  <string name="msg_invalid_value">Ungültiger Wert</string>
   <string name="msg_redirect">Umleiten</string>
   <string name="msg_sbc_book_not_searchable">Dieses Buch kann nicht durchsucht werden.</string>
   <string name="msg_sbc_failed">Bei der Suche ist ein Fehler aufgetreten.</string>
@@ -80,24 +82,30 @@
   <string name="msg_sbc_results">Ergebnisse</string>
   <string name="msg_sbc_searching_book">Durchsuche Buch\u2026</string>
   <string name="msg_sbc_snippet_unavailable">Textschnipsel nicht verfügbar.</string>
-  <string name="msg_share_explanation">Sie können Daten weitergeben, indem Sie einen Barcode auf Ihrem Bilschirm erzeugen und mit einem anderen Handy einscannen.</string>
+  <string name="msg_share_explanation">Sie können Daten weitergeben, indem Sie einen Barcode auf Ihrem Bildschirm erzeugen und mit einem anderen Handy einscannen.</string>
   <string name="msg_share_text">Oder geben Sie hier einen Text ein</string>
   <string name="msg_sure">Sind Sie sicher?</string>
   <string name="msg_unmount_usb">Leider kann nicht auf die SD-Karte zugegriffen werden.</string>
   <string name="preferences_actions_title">Wenn ein Barcode erkannt wurde\u2026</string>
   <string name="preferences_auto_focus_title">Autofokus verwenden</string>
+  <string name="preferences_auto_open_web_title">Öffnen Sie Webseiten automatisch</string>
   <string name="preferences_bulk_mode_summary">Scannt und speichert mehrere Barcodes nacheinander</string>
   <string name="preferences_bulk_mode_title">Massenscan</string>
   <string name="preferences_copy_to_clipboard_title">In die Zwischenablage kopieren</string>
   <string name="preferences_custom_product_search_summary" formatted="false">Platzhalter: %s = Inhalt, %f = Format, %t = Typ</string>
   <string name="preferences_custom_product_search_title">Eigene Such-URL</string>
-  <string name="preferences_decode_1D_title">1D Barcodes</string>
+  <string name="preferences_decode_1D_industrial_title">1D-Industrie</string>
+  <string name="preferences_decode_1D_product_title">1D-Produkt</string>
+  <string name="preferences_decode_Aztec_title">Aztec</string>
   <string name="preferences_decode_Data_Matrix_title">Data Matrix</string>
+  <string name="preferences_decode_PDF417_title">PDF417 (β)</string>
   <string name="preferences_decode_QR_title">QR Codes</string>
   <string name="preferences_device_bug_workarounds_title">Geräteabhängige Problemumgehung</string>
+  <string name="preferences_disable_barcode_scene_mode_title">Kein Barcode-Szene-Modus</string>
   <string name="preferences_disable_continuous_focus_summary">Nur Standard-Fokus-Modus verwenden</string>
   <string name="preferences_disable_continuous_focus_title">Kein kontinuierlicher Fokus</string>
-  <string name="preferences_disable_exposure_title">Keine Belichtungsmessung </string>
+  <string name="preferences_disable_exposure_title">Keine Belichtungsmessung</string>
+  <string name="preferences_disable_metering_title">Keine Dosierung</string>
   <string name="preferences_front_light_auto">Automatisch</string>
   <string name="preferences_front_light_off">Aus</string>
   <string name="preferences_front_light_on">Ein</string>
@@ -107,6 +115,7 @@
   <string name="preferences_invert_scan_summary">Für weiße Barcodes auf schwarzem Hintergrund. Nicht bei allen Geräten verfügbar.</string>
   <string name="preferences_invert_scan_title">Negativ-Scan</string>
   <string name="preferences_name">Einstellungen</string>
+  <string name="preferences_orientation_title">Nicht automatisch drehen</string>
   <string name="preferences_play_beep_title">Piepsen</string>
   <string name="preferences_remember_duplicates_summary">Speichern mehrerer Scans des gleichen Barcodes im Verlauf</string>
   <string name="preferences_remember_duplicates_title">Duplikate speichern</string>
@@ -115,8 +124,6 @@
   <string name="preferences_search_country">Land für die Suche</string>
   <string name="preferences_supplemental_summary">Erfahren Sie mehr über den Barcode</string>
   <string name="preferences_supplemental_title">Weitere Informationen abrufen</string>
-  <string name="preferences_try_bsplus">Barcode Scanner+ testen</string>
-  <string name="preferences_try_bsplus_summary">Mit mehr Funktionen und neuer Oberfläche.</string>
   <string name="preferences_vibrate_title">Vibrieren</string>
   <string name="result_address_book">Kontakt gefunden</string>
   <string name="result_calendar">Termin gefunden</string>
@@ -131,6 +138,4 @@
   <string name="result_wifi">WLAN-Konfiguration gefunden</string>
   <string name="sbc_name">Google Book Search</string>
   <string name="wifi_changing_network">Verbindung zum Netzwerk anfordern\u2026</string>
-  <string name="wifi_ssid_label">WLAN-Name:</string>
-  <string name="wifi_type_label">Verschlüsselung:</string>
 </resources>

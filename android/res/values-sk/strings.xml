@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">Čas</string>
   <string name="msg_default_type">Typ</string>
   <string name="msg_encode_contents_failed">Nie je možné zakódovať čiarový kód z poskytnutých údajov.</string>
+  <string name="msg_error">Chyba</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">Ospravedlňujeme sa, požadovaná aplikácia nemohla byť spustená. Obsah čiarového kódu je možno neplatný.</string>
+  <string name="msg_invalid_value">Neplatná hodnota</string>
   <string name="msg_redirect">Presmerovať</string>
   <string name="msg_sbc_book_not_searchable">Ospravedlňujeme sa, táto kniha nie je prehliadateľná.</string>
   <string name="msg_sbc_failed">Ospravedlňujeme sa, vyhľadávanie narazilo na problém.</string>
@@ -86,18 +88,24 @@
   <string name="msg_unmount_usb">Ospravedlňujeme sa, SD karta nie je prístupná.</string>
   <string name="preferences_actions_title">Pri zistení čiarového kódu</string>
   <string name="preferences_auto_focus_title">Použiť automatické zaostrenie</string>
+  <string name="preferences_auto_open_web_title">Otvorte webové stránky automaticky</string>
   <string name="preferences_bulk_mode_summary">Skenovať a ukladať veľa čiarových kódov bez prerušenia</string>
   <string name="preferences_bulk_mode_title">Hromadný režim skenovania</string>
   <string name="preferences_copy_to_clipboard_title">Kopírovať do schránky</string>
   <string name="preferences_custom_product_search_summary" formatted="false">Nahradiť: %s = obsah, %f = formát, %t = typ</string>
   <string name="preferences_custom_product_search_title">Vlastné vyhľadávanie URL</string>
-  <string name="preferences_decode_1D_title">1D čiarové kódy</string>
+  <string name="preferences_decode_1D_industrial_title">1D priemyselné</string>
+  <string name="preferences_decode_1D_product_title">1D tovar</string>
+  <string name="preferences_decode_Aztec_title">Aztécky</string>
   <string name="preferences_decode_Data_Matrix_title">Dáta Matrix</string>
+  <string name="preferences_decode_PDF417_title">PDF417 (β)</string>
   <string name="preferences_decode_QR_title">QR kódy</string>
   <string name="preferences_device_bug_workarounds_title">Možné chyby zariadenia</string>
-  <string name="preferences_disable_continuous_focus_summary">Použiť iba štandardné zaostrenie</string>
-  <string name="preferences_disable_continuous_focus_title">Nezaostrovať nepretržite</string>
+  <string name="preferences_disable_barcode_scene_mode_title">Bez scénického režimu čiarového kódu</string>
+  <string name="preferences_disable_continuous_focus_summary">Použiť iba štandardné zaostrenie.</string>
+  <string name="preferences_disable_continuous_focus_title">Bez nepretržitého zaostrovania</string>
   <string name="preferences_disable_exposure_title">Bez expozície</string>
+  <string name="preferences_disable_metering_title">Bez úpravy jasu</string>
   <string name="preferences_front_light_auto">Automatický</string>
   <string name="preferences_front_light_off">Neaktívne</string>
   <string name="preferences_front_light_on">Aktívne</string>
@@ -107,6 +115,7 @@
   <string name="preferences_invert_scan_summary">Skenovať biele čiarové kódy na čiernom pozadí. Nie je k dispozícii na všetkých zariadeniach.</string>
   <string name="preferences_invert_scan_title">Invertované skenovanie</string>
   <string name="preferences_name">Nastavenia</string>
+  <string name="preferences_orientation_title">Neotáčať automaticky</string>
   <string name="preferences_play_beep_title">Zvuková signalizácia</string>
   <string name="preferences_remember_duplicates_summary">Uložiť viacnásobné skenovanie do jednej histórie čiarového kódu</string>
   <string name="preferences_remember_duplicates_title">Zapamätať si duplikáty</string>
@@ -115,8 +124,6 @@
   <string name="preferences_search_country">Vyhľadávať v krajine</string>
   <string name="preferences_supplemental_summary">Skúsiť získať viac informácií o obsahu čiarového kódu</string>
   <string name="preferences_supplemental_title">Získať viac informácií</string>
-  <string name="preferences_try_bsplus">Vyskúšajte Barcode Scanner+</string>
-  <string name="preferences_try_bsplus_summary">Rozšírený o nové funkcie a prostredie</string>
   <string name="preferences_vibrate_title">Vibrovať</string>
   <string name="result_address_book">Nájdená informácia o kontakte</string>
   <string name="result_calendar">Nájdená udalosť kalendára</string>
@@ -131,6 +138,4 @@
   <string name="result_wifi">Nájdená konfigurácia WLAN</string>
   <string name="sbc_name">Vyhľadať v Google Knihy</string>
   <string name="wifi_changing_network">Požiadavka na pripojenie k sieti\u2026</string>
-  <string name="wifi_ssid_label">Názov sieťového pripojenia</string>
-  <string name="wifi_type_label">Typ</string>
 </resources>

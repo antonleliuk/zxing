@@ -52,6 +52,7 @@ public final class CameraManager {
   private Rect framingRectInPreview;
   private boolean initialized;
   private boolean previewing;
+  private int requestedCameraId = -1;
   private int requestedFramingRectWidth;
   private int requestedFramingRectHeight;
   /**
@@ -65,7 +66,7 @@ public final class CameraManager {
     this.configManager = new CameraConfigurationManager(context);
     previewCallback = new PreviewCallback(configManager);
   }
-
+  
   /**
    * Opens the camera driver and initializes the hardware parameters.
    *
@@ -75,7 +76,13 @@ public final class CameraManager {
   public synchronized void openDriver(SurfaceHolder holder) throws IOException {
     Camera theCamera = camera;
     if (theCamera == null) {
-      theCamera = OpenCameraInterface.open();
+
+      if (requestedCameraId >= 0) {
+        theCamera = OpenCameraInterface.open(requestedCameraId);
+      } else {
+        theCamera = OpenCameraInterface.open();
+      }
+      
       if (theCamera == null) {
         throw new IOException();
       }
@@ -164,6 +171,8 @@ public final class CameraManager {
 
   /**
    * Convenience method for {@link com.google.zxing.client.android.CaptureActivity}
+   *
+   * @param newSetting if {@code true}, light should be turned on if currently off. And vice versa.
    */
   public synchronized void setTorch(boolean newSetting) {
     if (newSetting != configManager.getTorchState(camera)) {
@@ -238,6 +247,8 @@ public final class CameraManager {
   /**
    * Like {@link #getFramingRect} but coordinates are in terms of the preview frame,
    * not UI / screen.
+   *
+   * @return {@link Rect} expressing barcode scan area in terms of the preview size
    */
   public synchronized Rect getFramingRectInPreview() {
     if (framingRectInPreview == null) {
@@ -261,6 +272,17 @@ public final class CameraManager {
     return framingRectInPreview;
   }
 
+  
+  /**
+   * Allows third party apps to specify the camera ID, rather than determine
+   * it automatically based on available cameras and their orientation.
+   *
+   * @param cameraId camera ID of the camera to use. A negative value means "no preference".
+   */
+  public synchronized void setManualCameraId(int cameraId) {
+    requestedCameraId = cameraId;
+  }
+  
   /**
    * Allows third party apps to specify the scanning rectangle dimensions, rather than determine
    * them automatically based on screen resolution.

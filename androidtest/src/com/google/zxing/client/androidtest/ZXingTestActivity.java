@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.ContactsContract;
@@ -31,7 +30,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+
+import com.google.zxing.client.android.camera.CameraConfigurationUtils;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -41,14 +41,11 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.regex.Pattern;
 
 public final class ZXingTestActivity extends Activity {
 
   private static final String TAG = ZXingTestActivity.class.getSimpleName();
   private static final String PACKAGE_NAME = ZXingTestActivity.class.getPackage().getName();
-  private static final Pattern SEMICOLON = Pattern.compile(";");
 
   @Override
   public void onCreate(Bundle icicle) {
@@ -116,10 +113,11 @@ public final class ZXingTestActivity extends Activity {
   }
   
 
-  private final Button.OnClickListener getCameraParameters = new Button.OnClickListener() {
+  private final View.OnClickListener getCameraParameters = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-      String stats = collectStats();
+      String stats = CameraConfigurationUtils.collectStats(getFlattenedParams());
+      writeStats(stats);
       Intent intent = new Intent(Intent.ACTION_SEND);
       intent.putExtra(Intent.EXTRA_EMAIL, "zxing-external@google.com");
       intent.putExtra(Intent.EXTRA_SUBJECT, "Camera parameters report");
@@ -129,7 +127,7 @@ public final class ZXingTestActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener runBenchmark = new Button.OnClickListener() {
+  private final View.OnClickListener runBenchmark = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -138,7 +136,7 @@ public final class ZXingTestActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener scanProduct = new Button.OnClickListener() {
+  private final View.OnClickListener scanProduct = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       IntentIntegrator integrator = new IntentIntegrator(ZXingTestActivity.this);
@@ -150,7 +148,7 @@ public final class ZXingTestActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener scanQRCode = new Button.OnClickListener() {
+  private final View.OnClickListener scanQRCode = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       IntentIntegrator integrator = new IntentIntegrator(ZXingTestActivity.this);
@@ -158,7 +156,7 @@ public final class ZXingTestActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener scanAnything = new Button.OnClickListener() {
+  private final View.OnClickListener scanAnything = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       IntentIntegrator integrator = new IntentIntegrator(ZXingTestActivity.this);
@@ -166,7 +164,7 @@ public final class ZXingTestActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener searchBookContents = new Button.OnClickListener() {
+  private final View.OnClickListener searchBookContents = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       Intent intent = new Intent("com.google.zxing.client.android.SEARCH_BOOK_CONTENTS");
@@ -176,35 +174,35 @@ public final class ZXingTestActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener encodeURL = new Button.OnClickListener() {
+  private final View.OnClickListener encodeURL = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       encodeBarcode("TEXT_TYPE", "http://www.nytimes.com");
     }
   };
 
-  private final Button.OnClickListener encodeEmail = new Button.OnClickListener() {
+  private final View.OnClickListener encodeEmail = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       encodeBarcode("EMAIL_TYPE", "foo@example.com");
     }
   };
 
-  private final Button.OnClickListener encodePhone = new Button.OnClickListener() {
+  private final View.OnClickListener encodePhone = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       encodeBarcode("PHONE_TYPE", "2125551212");
     }
   };
 
-  private final Button.OnClickListener encodeSMS = new Button.OnClickListener() {
+  private final View.OnClickListener encodeSMS = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       encodeBarcode("SMS_TYPE", "2125551212");
     }
   };
 
-  private final Button.OnClickListener encodeContact = new Button.OnClickListener() {
+  private final View.OnClickListener encodeContact = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       Bundle bundle = new Bundle();
@@ -216,7 +214,7 @@ public final class ZXingTestActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener encodeLocation = new Button.OnClickListener() {
+  private final View.OnClickListener encodeLocation = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       Bundle bundle = new Bundle();
@@ -226,7 +224,7 @@ public final class ZXingTestActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener encodeHiddenData = new Button.OnClickListener() {
+  private final View.OnClickListener encodeHiddenData = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       IntentIntegrator integrator = new IntentIntegrator(ZXingTestActivity.this);
@@ -235,14 +233,14 @@ public final class ZXingTestActivity extends Activity {
     }
   };
 
-  private final Button.OnClickListener encodeBadData = new Button.OnClickListener() {
+  private final View.OnClickListener encodeBadData = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       encodeBarcode(null, "bar");
     }
   };
 
-  private final Button.OnClickListener shareViaBarcode = new Button.OnClickListener() {
+  private final View.OnClickListener shareViaBarcode = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       startActivity(new Intent("com.google.zxing.client.android.SHARE"));
@@ -282,42 +280,6 @@ public final class ZXingTestActivity extends Activity {
     } finally {
       camera.release();
     }
-  }
-  
-  private static String collectStats() {
-    StringBuilder result = new StringBuilder(1000);
-    
-    result.append("BOARD=").append(Build.BOARD).append('\n');
-    result.append("BRAND=").append(Build.BRAND).append('\n');
-    result.append("CPU_ABI=").append(Build.CPU_ABI).append('\n');
-    result.append("DEVICE=").append(Build.DEVICE).append('\n');
-    result.append("DISPLAY=").append(Build.DISPLAY).append('\n');
-    result.append("FINGERPRINT=").append(Build.FINGERPRINT).append('\n');
-    result.append("HOST=").append(Build.HOST).append('\n');
-    result.append("ID=").append(Build.ID).append('\n');
-    result.append("MANUFACTURER=").append(Build.MANUFACTURER).append('\n');
-    result.append("MODEL=").append(Build.MODEL).append('\n');
-    result.append("PRODUCT=").append(Build.PRODUCT).append('\n');
-    result.append("TAGS=").append(Build.TAGS).append('\n');
-    result.append("TIME=").append(Build.TIME).append('\n');
-    result.append("TYPE=").append(Build.TYPE).append('\n');
-    result.append("USER=").append(Build.USER).append('\n');
-    result.append("VERSION.CODENAME=").append(Build.VERSION.CODENAME).append('\n');
-    result.append("VERSION.INCREMENTAL=").append(Build.VERSION.INCREMENTAL).append('\n');
-    result.append("VERSION.RELEASE=").append(Build.VERSION.RELEASE).append('\n');
-    result.append("VERSION.SDK_INT=").append(Build.VERSION.SDK_INT).append('\n');
-
-    CharSequence flattened = getFlattenedParams();
-    String[] params = SEMICOLON.split(flattened);
-    Arrays.sort(params);
-    for (String param : params) {
-      result.append(param).append('\n');
-    }
-
-    String resultString = result.toString();
-    writeStats(resultString);
-
-    return resultString;
   }
 
   private static void writeStats(String resultString) {
