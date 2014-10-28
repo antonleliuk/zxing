@@ -79,7 +79,7 @@ public enum EncodeHintType {
   PDF417_DIMENSIONS,
   
   /**
-   * Specifies the need to scale {@link BitMatrix} (type {@link Boolean})
+   * Specifies how much to scale {@link BitMatrix} (type {@link Integer})
    */
   PDF417_SCALE,
 

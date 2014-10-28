@@ -520,7 +520,7 @@ public final class PDF417 {
   private int maxCols;
   private int maxRows;
   private int minRows;
-  private boolean scale = true;
+  private int scale = 1;
 
   public PDF417() {
     this(false);
@@ -766,11 +766,11 @@ public final class PDF417 {
     this.encoding = encoding;
   }
 
-    public boolean isScale() {
+    public int getScale() {
         return scale;
     }
 
-    public void setScale(boolean scale) {
+    public void setScale(int scale) {
         this.scale = scale;
     }
 }

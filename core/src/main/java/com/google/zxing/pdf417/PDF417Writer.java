@@ -74,7 +74,7 @@ public final class PDF417Writer implements Writer {
         encoder.setEncoding(Charset.forName(encoding));
       }
         if(hints.containsKey(EncodeHintType.PDF417_SCALE)){
-            encoder.setScale((Boolean)hints.get(EncodeHintType.PDF417_SCALE));
+            encoder.setScale((Integer)hints.get(EncodeHintType.PDF417_SCALE));
         }
     }
 
@@ -97,38 +97,40 @@ public final class PDF417Writer implements Writer {
                                                 int width,
                                                 int height,
                                                 int margin) throws WriterException {
-    int errorCorrectionLevel = 2;
+    int errorCorrectionLevel = 1;
     encoder.generateBarcodeLogic(contents, errorCorrectionLevel);
 
     int lineThickness = 2;
     int aspectRatio = 4;
-    byte[][] originalScale = encoder.isScale() ? encoder.getBarcodeMatrix().getScaledMatrix(lineThickness, aspectRatio * lineThickness) : encoder.getBarcodeMatrix().getMatrix();
-    boolean rotated = false;
-    if ((height > width) ^ (originalScale[0].length < originalScale.length)) {
-      originalScale = rotateArray(originalScale);
-      rotated = true;
-    }
+//    byte[][] originalScale = encoder.getBarcodeMatrix().getScaledMatrix(lineThickness, aspectRatio * lineThickness);
+    byte[][] originalScale = encoder.getBarcodeMatrix().getMatrix();
+//    boolean rotated = false;
+//    if ((height > width) ^ (originalScale[0].length < originalScale.length)) {
+//      originalScale = rotateArray(originalScale);
+//      rotated = true;
+//    }
 
-    if(encoder.isScale()){
-      int scaleX = width / originalScale[0].length;
-      int scaleY = height / originalScale.length;
+//    if(encoder.isScale()){
+//      int scaleX = width / originalScale[0].length;
+//      int scaleY = height / originalScale.length;
 
-      int scale;
-      if (scaleX < scaleY) {
-        scale = scaleX;
-      } else {
-        scale = scaleY;
-      }
+      int scale = encoder.getScale();
+//      if (scaleX < scaleY) {
+//        scale = scaleX;
+//      } else {
+//        scale = scaleY;
+//      }
 
       if (scale > 1) {
-          byte[][] scaledMatrix =
-                  encoder.getBarcodeMatrix().getScaledMatrix(scale * lineThickness, scale * aspectRatio * lineThickness);
-          if (rotated) {
-              scaledMatrix = rotateArray(scaledMatrix);
-          }
+//          byte[][] scaledMatrix =
+//                  encoder.getBarcodeMatrix().getScaledMatrix(scale * lineThickness, scale * aspectRatio * lineThickness);
+            byte[][] scaledMatrix = encoder.getBarcodeMatrix().getScaledMatrix(scale, scale);
+//          if (rotated) {
+//              scaledMatrix = rotateArray(scaledMatrix);
+//          }
           return bitMatrixFrombitArray(scaledMatrix, margin);
       }
-    }
+//    }
 
     return bitMatrixFrombitArray(originalScale, margin);
   }
